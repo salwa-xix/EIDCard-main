@@ -347,28 +347,38 @@ body {
 
 .splash-title {
   margin: 12px auto 14px;
-  line-height: 1.3;
-  letter-spacing: 0.3px;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, var(--gold-2) 50%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
   animation: titleGlow 2.5s ease-in-out infinite alternate;
+  will-change: transform, opacity, filter;
 }
 
 @keyframes titleGlow {
   from {
-    text-shadow: 0 0 0 rgba(241, 201, 106, 0.1);
+    filter: drop-shadow(0 4px 10px rgba(241, 201, 106, 0.2));
   }
   to {
-    text-shadow: 0 0 22px rgba(241, 201, 106, 0.28);
+    filter: drop-shadow(0 8px 25px rgba(241, 201, 106, 0.5));
   }
 }
 
 .splash-note {
-  color: var(--text-soft);
-  font-size: 1rem;
-  max-width: 520px;
+  color: var(--white-80);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 500;
+  max-width: 600px;
   margin: 0 auto;
   line-height: 1.9;
+  letter-spacing: 0.2px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  will-change: transform, opacity;
 }
 
 /* ========= Home Layout ========= */
@@ -910,8 +920,8 @@ body {
 
 .card-preview {
   position: relative;
-  width: min(90vw, 380px);
-  aspect-ratio: 4 / 5;
+  width: min(90vw, 420px);
+  aspect-ratio: 1 / 1;
   background: #fff;
   border-radius: 32px;
   border: 1px solid var(--white-10);
@@ -943,6 +953,7 @@ body {
   right: 0;
   text-align: center;
   z-index: 5;
+  font-family: "Tajawal", sans-serif;
 }
 
 .preview-greeting {
@@ -953,11 +964,28 @@ body {
 }
 
 .preview-name {
-  bottom: 50px;
+  bottom: 15%;
   color: #a67c27;
-  font-size: 1.8rem;
-  font-weight: 900;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: clamp(1rem, 3.5vw, 1.8rem);
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  padding: 0 20px;
+}
+
+/* Template Specific Overrides */
+.card-preview.t1 .preview-name {
+  bottom: 15.5%;
+  color: #ffffff;
+}
+
+.card-preview.t2 .preview-name {
+  bottom: 26%;
+  color: #1a4d2e;
+}
+
+.card-preview.t3 .preview-name {
+  bottom: 12.5%;
+  color: #1a2245;
 }
 
 .hidden-canvas {

@@ -43,7 +43,25 @@ function updatePreview() {
   const src = templates[selectedIndex];
   preview.style.backgroundImage = src ? `url('${src}')` : "none";
   preview.classList.toggle("with-image", !!src);
-  previewName.textContent = nameInput.value.trim() || "اسمك هنا";
+  
+  // Add template specific class for positioning
+  preview.classList.remove("t1", "t2", "t3");
+  if (selectedIndex === 0) preview.classList.add("t1");
+  if (selectedIndex === 1) preview.classList.add("t2");
+  if (selectedIndex === 2) preview.classList.add("t3");
+
+  const logo = document.getElementById("previewLogo");
+  const greeting = document.querySelector(".preview-greeting");
+  
+  if (src) {
+    if (logo) logo.style.display = "none";
+    if (greeting) greeting.style.display = "none";
+  } else {
+    if (logo) logo.style.display = "block";
+    if (greeting) greeting.style.display = "block";
+  }
+
+  previewName.textContent = nameInput.value.trim() || "الاسم هنا";
 }
 
 nameInput?.addEventListener("input", updatePreview);
@@ -60,64 +78,58 @@ function loadImage(src) {
 
 async function downloadCard() {
   const w = 1080;
-  const h = 1350;
+  const h = 1080; // Templates are square
   canvasCard.width = w;
   canvasCard.height = h;
   const ctx = canvasCard.getContext("2d");
-
-  // Premium Background
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, w, h);
 
   const src = templates[selectedIndex];
   if (src) {
     try {
       const img = await loadImage(src);
       ctx.drawImage(img, 0, 0, w, h);
-    } catch (e) {}
+    } catch (e) {
+      console.error("Error loading template:", e);
+    }
   } else {
-    // Default gradient if no template
-    const grad = ctx.createLinearGradient(0, 0, w, h);
-    grad.addColorStop(0, "#ffffff");
-    grad.addColorStop(1, "#f9f6ef");
-    ctx.fillStyle = grad;
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, w, h);
   }
 
-  // Draw a premium double border
-  ctx.strokeStyle = "#dca83b";
-  ctx.lineWidth = 12;
-  ctx.strokeRect(40, 40, w - 80, h - 80);
-  
-  ctx.strokeStyle = "#f1c96a";
-  ctx.lineWidth = 4;
-  ctx.strokeRect(60, 60, w - 120, h - 120);
+  // Define positioning and style per template
+  let nameX = w / 2;
+  let nameY = h - 150;
+  let nameColor = "#ffffff";
+  let fontSize = "70px";
 
-  try {
-    const logo = await loadImage(logoPathCard);
-    // Draw logo with shadow
-    ctx.shadowColor = "rgba(0,0,0,0.1)";
-    ctx.shadowBlur = 20;
-    ctx.drawImage(logo, w - 250, 80, 160, 160);
-    ctx.shadowBlur = 0;
-  } catch (e) {}
+  if (selectedIndex === 0) { // Blue Template
+    nameY = 918;
+    nameColor = "#ffffff";
+    fontSize = "58px";
+    ctx.textAlign = "center";
+  } else if (selectedIndex === 1) { // Green/Beige Grid Template
+    nameY = 775;
+    nameColor = "#1a4d2e"; // Dark green matched from image
+    fontSize = "58px";
+    ctx.textAlign = "center";
+  } else if (selectedIndex === 2) { // Striped Template
+    nameY = 930;
+    nameColor = "#1a2245"; // Dark navy
+    fontSize = "58px";
+    ctx.textAlign = "center";
+  }
 
-  // Wait for font to be ready (ensure Tajawal is used)
-  await document.fonts.load('bold 64px Tajawal');
+  // Wait for font
+  await document.fonts.load(`bold ${fontSize} Tajawal`);
 
-  ctx.fillStyle = "#1a2245";
-  ctx.textAlign = "center";
-  ctx.font = "bold 64px Tajawal, sans-serif";
-  ctx.fillText("عيدكم فرح ونجاح", w / 2, h - 240);
-
-  ctx.fillStyle = "#a67c27";
-  ctx.font = "900 86px Tajawal, sans-serif";
-  const finalName = nameInput.value.trim() || "اسمك هنا";
-  ctx.fillText(finalName, w / 2, h - 130);
+  ctx.fillStyle = nameColor;
+  ctx.font = `bold ${fontSize} Tajawal, sans-serif`;
+  const finalName = nameInput.value.trim() || "الاسم هنا";
+  ctx.fillText(finalName, nameX, nameY);
 
   const link = document.createElement("a");
   link.href = canvasCard.toDataURL("image/png", 1.0);
-  link.download = `eid-card-${finalName}.png`;
+  link.download = `عيد-سعيد-${finalName}.png`;
   link.click();
 }
 

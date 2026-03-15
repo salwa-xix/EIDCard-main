@@ -2,9 +2,9 @@ window.APP_CONFIG = {
   logoPath: "assets/logo.png",
 
   cardTemplates: [
-    "",
-    "",
-    ""
+    "Template pictures/template1.png",
+    "Template pictures/template2.png",
+    "Template pictures/template3.png"
   ],
 
   botQA: [

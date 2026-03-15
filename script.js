@@ -1,26 +1,48 @@
-const greetings = [
-  "عيدكم أجمل مع نادي ريادة الأعمال",
-  "Happy Eid from Entrepreneurship Club",
-  "Selamat Hari Raya",
-  "Bayramınız Kutlu Olsun",
-  "イード・ムバラク ✨",
-  "Eid Mubarak ✨"
+const mainMessages = [
+  {
+    title: "عيد سعيد ومبهج ✨",
+    note: "أيامكم فرح، وإنجازكم يكبر، وعيدكم يليق بطموحكم."
+  },
+  {
+    title: "كل عام وأنتم بخير 🌙",
+    note: "نسأل الله أن يتقبل منا ومنكم صالح الأعمال، ويعيده علينا وعليكم باليمن والبركات."
+  },
+  {
+    title: "عساكم من عواده 💫",
+    note: "جعل الله عيدكم فرحة بأعمال قُبلت، ودرجات رُفعت، وأماني تَحققت."
+  },
+  {
+    title: "عيدكم مبارك 🎊",
+    note: "أمانينا تسبق تهانينا، وفرحتنا تسبق أيامنا، وعيد سعيد عليكم جميعاً."
+  }
 ];
 
 window.addEventListener("load", () => {
-  const greetingEl = document.getElementById("greetingLang");
-  let idx = 0;
+  const titleEl = document.querySelector(".splash-title");
+  const noteEl = document.querySelector(".splash-note");
+  let msgIdx = 0;
 
-  if (greetingEl) {
-    // Keep animating the text indefinitely
+  if (titleEl && noteEl) {
+    titleEl.style.transition = "opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)";
+    noteEl.style.transition = "opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)";
+    
     setInterval(() => {
-      greetingEl.style.opacity = 0;
+      titleEl.style.opacity = 0;
+      titleEl.style.transform = "translateY(12px)";
+      noteEl.style.opacity = 0;
+      noteEl.style.transform = "translateY(8px)";
+      
       setTimeout(() => {
-        idx = (idx + 1) % greetings.length;
-        greetingEl.textContent = greetings[idx];
-        greetingEl.style.opacity = 1;
-      }, 300);
-    }, 1200);
+        msgIdx = (msgIdx + 1) % mainMessages.length;
+        titleEl.textContent = mainMessages[msgIdx].title;
+        noteEl.textContent = mainMessages[msgIdx].note;
+        
+        titleEl.style.opacity = 1;
+        titleEl.style.transform = "translateY(0)";
+        noteEl.style.opacity = 1;
+        noteEl.style.transform = "translateY(0)";
+      }, 600); // Wait for fade out
+    }, 3800); // Change every 3.8 seconds
   }
 
   // Handle closing splash screen on click
